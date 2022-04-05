@@ -3,13 +3,15 @@ import React from "react";
 import "./App.css";
 import { Header } from "./components";
 import AppRouter from "./components/AppRouter/AppRouter";
+import NavModal from "./components/NavModal";
 
 function App() {
 	return (
-		<div className="w-screen h-auto flex flex-col">
+		<main className="relative w-screen h-auto flex flex-col">
 			<Header />
+			<NavModal />
 			<AppRouter />
-		</div>
+		</main>
 	);
 }
 
