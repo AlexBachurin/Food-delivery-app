@@ -3,6 +3,7 @@ import { BsFillCartPlusFill } from "react-icons/bs";
 import { AiOutlineMenu } from "react-icons/ai";
 import HeaderNav from "./HeaderNav";
 import { useAppDispatch } from "../../store";
+import { openModal } from "../../features/modal/modalSlice";
 const Header: FC = () => {
 	const dispatch = useAppDispatch();
 
@@ -38,7 +39,10 @@ const Header: FC = () => {
 			</div>
 			{/* mobile */}
 			<div className="flex justify-between items-center md:hidden lg:hidden">
-				<AiOutlineMenu className="text-[26px] text-black cursor-pointer" />
+				<AiOutlineMenu
+					onClick={() => dispatch(openModal(true))}
+					className="text-[26px] text-black cursor-pointer"
+				/>
 				<div className="w-8 h-8">
 					<img
 						src="https://restaurantapp-c2ed6.web.app/static/media/logo.0f99324454e3c3ccba98.png"
