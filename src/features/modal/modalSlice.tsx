@@ -13,11 +13,9 @@ const modalSlice = createSlice({
 	initialState,
 	reducers: {
 		openModal: (state, action: PayloadAction<boolean>) => {
-			console.log("open");
 			state.isOpen = action.payload;
 		},
 		closeModal: (state, action: PayloadAction<boolean>) => {
-			console.log("close");
 			state.isOpen = action.payload;
 		},
 	},

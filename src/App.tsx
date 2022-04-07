@@ -7,11 +7,13 @@ import NavModal from "./components/NavModal";
 
 function App() {
 	return (
-		<main className="relative w-screen h-auto flex flex-col bg-primary-bg">
+		<div className="w-screen h-auto flex flex-col bg-primary-bg">
 			<Header />
+			<main className="">
+				<AppRouter />
+			</main>
 			<NavModal />
-			<AppRouter />
-		</main>
+		</div>
 	);
 }
 

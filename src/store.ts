@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import modalReducer from "./features/modal/modalSlice";
+import authReducer from "./features/auth/authSlice";
 
 // ...
 const store = configureStore({
 	reducer: {
 		modal: modalReducer,
+		auth: authReducer,
 	},
 });
 export type RootState = ReturnType<typeof store.getState>;

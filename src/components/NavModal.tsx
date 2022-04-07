@@ -12,8 +12,8 @@ const NavModal: FC = () => {
 			<aside
 				className={`${
 					isModalOpen
-						? "translate-x-0 fixed top-0 left-0 w-screen h-screen bg-slate-400 z-50 transition-all ease-in duration-300 sm:hidden bg-primary-bg"
-						: "fixed top-0 left-0 w-screen h-screen bg-slate-400 z-50 transition-all translate-left ease-in duration-300 bg-primary-bg"
+						? "translate-x-0 fixed top-0 left-0 w-full h-full  z-50 transition-all ease-in duration-300 sm:hidden bg-primary-bg"
+						: "fixed top-0 left-0 w-full h-full  z-50 transition-all translate-left ease-in duration-300 bg-primary-bg"
 				}`}
 			>
 				<HeaderNav />
