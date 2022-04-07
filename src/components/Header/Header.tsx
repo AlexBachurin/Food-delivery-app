@@ -10,7 +10,7 @@ import { motion } from "framer-motion";
 
 const Header: FC = () => {
 	const dispatch = useAppDispatch();
-
+	const dropdownRef = useRef<HTMLDivElement>(null);
 	const { user } = useAppSelector((state) => state.auth);
 
 	const [showLogout, setShowLogout] = useState(false);
@@ -20,28 +20,42 @@ const Header: FC = () => {
 	};
 
 	//close dropdown on outside click
-	const dropdownRef = useRef<HTMLDivElement>(null);
+	//not working for some reason because our element is absolute positioned
+
+	// useEffect(() => {
+	// 	const checkIfClickedOutside = (e: MouseEvent) => {
+	// 		// If the menu is open and the clicked target is not within the menu,
+	// 		// then close the menu
+	//
+	// 		console.log(dropdownRef.current?.contains(e.target as Node));
+	// 		if (
+	// 			showLogout &&
+	// 			dropdownRef.current &&
+	// 			!dropdownRef?.current?.contains(e.target as Node)
+	// 		) {
+	// 			setShowLogout(false);
+	// 		}
+	// 	};
+
+	// 	//event to check for mouse outside of menu
+	// 	document.addEventListener("mousedown", checkIfClickedOutside);
+
+	// 	return () => {
+	// 		// Cleanup the event listener
+	// 		document.removeEventListener("mousedown", checkIfClickedOutside);
+	// 	};
+	// }, [showLogout]);
+
+	//close menu on mouseLeave
 	useEffect(() => {
-		const checkIfClickedOutside = (e: MouseEvent) => {
-			// If the menu is open and the clicked target is not within the menu,
-			// then close the menu
-			if (
-				showLogout &&
-				dropdownRef.current &&
-				!dropdownRef?.current?.contains(e.target as Node)
-			) {
-				setShowLogout(false);
-			}
+		const onMouseLeave = () => {
+			setShowLogout(false);
 		};
-
-		//event to check for mouse outside of menu
-		document.addEventListener("mousedown", checkIfClickedOutside);
-
+		dropdownRef.current?.addEventListener("mouseleave", onMouseLeave);
 		return () => {
-			// Cleanup the event listener
-			document.removeEventListener("mousedown", checkIfClickedOutside);
+			dropdownRef.current?.removeEventListener("mouseleave", onMouseLeave);
 		};
-	}, [showLogout]);
+	});
 	return (
 		<header className="fixed  z-40 w-screen p-6 lg:px-16 md:px-8 bg-primary-bg text-header-text">
 			{/* desktop and tablet */}
@@ -122,7 +136,6 @@ const Header: FC = () => {
 						/>
 						{showLogout && (
 							<motion.div
-								ref={dropdownRef}
 								initial={{ opacity: 0, scale: 0.6 }}
 								animate={{ opacity: 1, scale: 1 }}
 								exit={{ opacity: 0, scale: 0.6 }}
