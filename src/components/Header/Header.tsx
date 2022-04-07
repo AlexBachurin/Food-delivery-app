@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from "../../store";
 import { openModal } from "../../features/modal/modalSlice";
 import { login, logout } from "../../features/auth/authSlice";
 import avatar from "../../img/avatar.jpg";
+import { motion } from "framer-motion";
 
 const Header: FC = () => {
 	const dispatch = useAppDispatch();
@@ -41,24 +42,33 @@ const Header: FC = () => {
 							onClick={user ? displayLogout : () => dispatch(login())}
 							className="w-8 cursor-pointer relative"
 						>
-							<img
+							<motion.img
+								whileTap={{ scale: 0.6 }}
 								src={user?.photoURL ? user.photoURL : avatar}
 								alt="avatar"
 								className="w-full h-full object-cover"
 							/>
-							<div
-								className={`${
-									showLogout
-										? "w-40 bg-gray-400 shadow-xl flex flex-col absolute top-12 right-0 cursor-pointer opacity-100 before:block before:absolute before:w-0 before:h-0 before:right-2 before:top-[-8px] before:border-l-[5px] before:border-r-[5px] before:border-b-[5px] before:border-l-transparent before:border-r-transparent before:border-b-black"
-										: "w-40 bg-gray-400 shadow-xl hidden flex-col absolute top-12 right-0 cursor-pointer opacity-0 "
-								}`}
-								onClick={() => {
-									dispatch(logout());
-									setShowLogout(false);
-								}}
-							>
-								<p className="p-3">logout</p>
-							</div>
+							{showLogout && (
+								<motion.div
+									initial={{ opacity: 0, scale: 0.6 }}
+									animate={{ opacity: 1, scale: 1 }}
+									exit={{ opacity: 0, scale: 0.6 }}
+									className="w-40 bg-gray-50 shadow-x flex flex-col absolute top-12 right-0 cursor-pointer opacity-100 before:block before:absolute before:w-0 before:h-0 before:right-2 before:top-[-8px] before:border-l-[5px] before:border-r-[5px] before:border-b-[5px] before:border-l-transparent before:border-r-transparent before:border-b-black"
+								>
+									<p className="p-3 hover:bg-gray-200 transition-all ease-in-out">
+										cart
+									</p>
+									<p
+										onClick={() => {
+											dispatch(logout());
+											setShowLogout(false);
+										}}
+										className="p-3 hover:bg-gray-200 transition-all ease-in-out"
+									>
+										logout
+									</p>
+								</motion.div>
+							)}
 						</div>
 					</div>
 				</nav>
@@ -78,25 +88,34 @@ const Header: FC = () => {
 				</div>
 				<div className="flex items-center justify-between gap-3">
 					<div className="w-8 h-8 cursor-pointer relative">
-						<img
+						<motion.img
+							whileTap={{ scale: 0.6 }}
 							onClick={user ? displayLogout : () => dispatch(login())}
 							src={user?.photoURL ? user.photoURL : avatar}
 							alt="avatar"
 							className="w-100 h-auto object-cover"
 						/>
-						<div
-							className={`${
-								showLogout
-									? "w-40 bg-gray-400 shadow-xl flex flex-col absolute top-12 right-0 cursor-pointer opacity-100 before:block before:absolute before:w-0 before:h-0 before:right-2 before:top-[-8px] before:border-l-[5px] before:border-r-[5px] before:border-b-[5px] before:border-l-transparent before:border-r-transparent before:border-b-black"
-									: "w-40 bg-gray-400 shadow-xl flex-col absolute top-12 right-0 cursor-pointer opacity-0 hidden"
-							}`}
-							onClick={() => {
-								dispatch(logout());
-								setShowLogout(false);
-							}}
-						>
-							<p className="p-3">logout</p>
-						</div>
+						{showLogout && (
+							<motion.div
+								initial={{ opacity: 0, scale: 0.6 }}
+								animate={{ opacity: 1, scale: 1 }}
+								exit={{ opacity: 0, scale: 0.6 }}
+								className="w-40 transition-all ease-in-out bg-gray-50 shadow-x flex flex-col absolute top-12 right-0 cursor-pointer opacity-100 before:block before:absolute before:w-0 before:h-0 before:right-2 before:top-[-8px] before:border-l-[5px] before:border-r-[5px] before:border-b-[5px] before:border-l-transparent before:border-r-transparent before:border-b-black"
+							>
+								<p className="p-3 hover:bg-gray-200 transition-all ease-in-out">
+									cart
+								</p>
+								<p
+									onClick={() => {
+										dispatch(logout());
+										setShowLogout(false);
+									}}
+									className="p-3 hover:bg-gray-200 transition-all ease-in-out"
+								>
+									logout
+								</p>
+							</motion.div>
+						)}
 					</div>
 					<div className="cursor-pointer">
 						<BsFillCartPlusFill className="text-[30px]" />
