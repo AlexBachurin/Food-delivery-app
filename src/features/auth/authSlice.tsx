@@ -19,10 +19,6 @@ interface IUser {
 	photoURL: string | null;
 }
 
-type LoginError = {
-	message: string;
-};
-
 const initialState: initState = {
 	isAuthenticated: false,
 	isLoading: false,
@@ -50,7 +46,18 @@ export const login = createAsyncThunk("auth/login", async () => {
 const authSlice = createSlice({
 	name: "auth",
 	initialState: initialState,
-	reducers: {},
+	reducers: {
+		logout: (state) => {
+			//set auth to false
+			state.isAuthenticated = false;
+			//logout
+			auth.signOut();
+			//set user to null
+			state.user = null;
+			//remove user from storage
+			localStorage.removeItem("user");
+		},
+	},
 	extraReducers: (builder) => {
 		builder.addCase(login.pending, (state, action) => {
 			state.isLoading = true;
@@ -66,6 +73,6 @@ const authSlice = createSlice({
 	},
 });
 
-export const {} = authSlice.actions;
+export const { logout } = authSlice.actions;
 
 export default authSlice.reducer;

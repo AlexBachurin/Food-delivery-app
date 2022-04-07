@@ -1,16 +1,22 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { BsFillCartPlusFill } from "react-icons/bs";
 import { AiOutlineMenu } from "react-icons/ai";
 import HeaderNav from "./HeaderNav";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { openModal } from "../../features/modal/modalSlice";
-import { login } from "../../features/auth/authSlice";
+import { login, logout } from "../../features/auth/authSlice";
 import avatar from "../../img/avatar.jpg";
 
 const Header: FC = () => {
 	const dispatch = useAppDispatch();
 
-	const { user } = useAppSelector((state) => state.auth);
+	const { user, isAuthenticated } = useAppSelector((state) => state.auth);
+
+	const [showLogout, setShowLogout] = useState(false);
+
+	const displayLogout = () => {
+		setShowLogout(!showLogout);
+	};
 	return (
 		<header className="fixed  z-40 w-screen p-6 lg:px-16 md:px-8 bg-primary-bg text-header-text">
 			{/* desktop and tablet */}
@@ -32,14 +38,24 @@ const Header: FC = () => {
 							<BsFillCartPlusFill className="text-[30px] text-black" />
 						</div>
 						<div
-							onClick={() => dispatch(login())}
-							className="w-8 cursor-pointer"
+							onClick={user ? displayLogout : () => dispatch(login())}
+							className="w-8 cursor-pointer relative"
 						>
 							<img
 								src={user?.photoURL ? user.photoURL : avatar}
 								alt="avatar"
 								className="w-full h-full object-cover"
 							/>
+							<div
+								className={`${
+									showLogout
+										? "w-40 bg-gray-400 shadow-xl flex flex-col absolute top-12 right-0 cursor-pointer opacity-100"
+										: "w-40 bg-gray-400 shadow-xl flex-col absolute top-12 right-0 cursor-pointer opacity-0 hidden"
+								}`}
+								onClick={() => dispatch(logout())}
+							>
+								<p className="p-3">logout</p>
+							</div>
 						</div>
 					</div>
 				</nav>
