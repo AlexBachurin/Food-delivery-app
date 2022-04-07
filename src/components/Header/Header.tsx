@@ -7,10 +7,12 @@ import { openModal } from "../../features/modal/modalSlice";
 import { login, logout } from "../../features/auth/authSlice";
 import avatar from "../../img/avatar.jpg";
 import { motion } from "framer-motion";
+import useOutsideClick from "../../utils/outsideClick";
 
 const Header: FC = () => {
 	const dispatch = useAppDispatch();
 	const dropdownRef = useRef<HTMLDivElement>(null);
+	const dropDownMobileRef = useRef<HTMLDivElement>(null);
 	const { user } = useAppSelector((state) => state.auth);
 
 	const [showLogout, setShowLogout] = useState(false);
@@ -19,43 +21,36 @@ const Header: FC = () => {
 		setShowLogout(!showLogout);
 	};
 
-	//close dropdown on outside click
-	//not working for some reason because our element is absolute positioned
-
+	//close menu on mouseLeave
 	// useEffect(() => {
-	// 	const checkIfClickedOutside = (e: MouseEvent) => {
-	// 		// If the menu is open and the clicked target is not within the menu,
-	// 		// then close the menu
-	//
-	// 		console.log(dropdownRef.current?.contains(e.target as Node));
+	// 	const onMouseLeave = () => {
+	// 		setShowLogout(false);
+	// 	};
+	// 	dropdownRef.current?.addEventListener("mouseleave", onMouseLeave);
+	// 	return () => {
+	// 		dropdownRef.current?.removeEventListener("mouseleave", onMouseLeave);
+	// 	};
+	// });
+
+	// close dropdown on outside click
+	// useEffect(() => {
+	// 	const handleClick = (e: MouseEvent) => {
 	// 		if (
-	// 			showLogout &&
 	// 			dropdownRef.current &&
-	// 			!dropdownRef?.current?.contains(e.target as Node)
+	// 			!dropdownRef.current.contains(e.target as Node)
 	// 		) {
 	// 			setShowLogout(false);
 	// 		}
 	// 	};
 
-	// 	//event to check for mouse outside of menu
-	// 	document.addEventListener("mousedown", checkIfClickedOutside);
+	// 	document.addEventListener("mousedown", handleClick);
 
 	// 	return () => {
-	// 		// Cleanup the event listener
-	// 		document.removeEventListener("mousedown", checkIfClickedOutside);
+	// 		document.removeEventListener("mousedown", handleClick);
 	// 	};
-	// }, [showLogout]);
-
-	//close menu on mouseLeave
-	useEffect(() => {
-		const onMouseLeave = () => {
-			setShowLogout(false);
-		};
-		dropdownRef.current?.addEventListener("mouseleave", onMouseLeave);
-		return () => {
-			dropdownRef.current?.removeEventListener("mouseleave", onMouseLeave);
-		};
-	});
+	// });
+	useOutsideClick(dropdownRef, () => setShowLogout(false));
+	// useOutsideClick(dropDownMobileRef, () => setShowLogout(false));
 	return (
 		<header className="fixed  z-40 w-screen p-6 lg:px-16 md:px-8 bg-primary-bg text-header-text">
 			{/* desktop and tablet */}
@@ -92,7 +87,7 @@ const Header: FC = () => {
 									initial={{ opacity: 0, scale: 0.6 }}
 									animate={{ opacity: 1, scale: 1 }}
 									exit={{ opacity: 0, scale: 0.6 }}
-									className="w-40 bg-gray-50 shadow-x flex flex-col absolute top-12 right-0 cursor-pointer opacity-100 before:block before:absolute before:w-0 before:h-0 before:right-2 before:top-[-8px] before:border-l-[5px] before:border-r-[5px] before:border-b-[5px] before:border-l-transparent before:border-r-transparent before:border-b-black"
+									className="w-40 bg-gray-50 shadow-x flex flex-col absolute top-[41px] right-0 cursor-pointer opacity-100 before:block before:absolute before:w-0 before:h-0 before:right-2 before:top-[-8px] before:border-l-[5px] before:border-r-[5px] before:border-b-[5px] before:border-l-transparent before:border-r-transparent before:border-b-black"
 								>
 									<p className="p-3 hover:bg-gray-200 transition-all ease-in-out">
 										cart
@@ -136,6 +131,7 @@ const Header: FC = () => {
 						/>
 						{showLogout && (
 							<motion.div
+								ref={dropDownMobileRef}
 								initial={{ opacity: 0, scale: 0.6 }}
 								animate={{ opacity: 1, scale: 1 }}
 								exit={{ opacity: 0, scale: 0.6 }}
