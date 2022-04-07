@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { app } from "../../firebase.config";
+import getLocalStorage from "../../utils/getLocalStorageUser";
 
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
@@ -25,7 +26,7 @@ type LoginError = {
 const initialState: initState = {
 	isAuthenticated: false,
 	isLoading: false,
-	user: {} as IUser,
+	user: getLocalStorage() as IUser,
 };
 
 export const login = createAsyncThunk("auth/login", async () => {
@@ -39,7 +40,7 @@ export const login = createAsyncThunk("auth/login", async () => {
 			email: providerData[0].email,
 			photoURL: providerData[0].photoURL,
 		};
-
+		localStorage.setItem("user", JSON.stringify(userData));
 		return userData;
 	}
 
