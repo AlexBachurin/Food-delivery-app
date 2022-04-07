@@ -52,7 +52,10 @@ const Header: FC = () => {
 										? "w-40 bg-gray-400 shadow-xl flex flex-col absolute top-12 right-0 cursor-pointer opacity-100"
 										: "w-40 bg-gray-400 shadow-xl flex-col absolute top-12 right-0 cursor-pointer opacity-0 hidden"
 								}`}
-								onClick={() => dispatch(logout())}
+								onClick={() => {
+									dispatch(logout());
+									setShowLogout(false);
+								}}
 							>
 								<p className="p-3">logout</p>
 							</div>
@@ -74,13 +77,26 @@ const Header: FC = () => {
 					/>
 				</div>
 				<div className="flex items-center justify-between gap-3">
-					<div className="w-8 h-8 cursor-pointer">
+					<div className="w-8 h-8 cursor-pointer relative">
 						<img
-							onClick={() => dispatch(login())}
+							onClick={user ? displayLogout : () => dispatch(login())}
 							src={user?.photoURL ? user.photoURL : avatar}
 							alt="avatar"
 							className="w-100 h-auto object-cover"
 						/>
+						<div
+							className={`${
+								showLogout
+									? "w-40 bg-gray-400 shadow-xl flex flex-col absolute top-12 right-0 cursor-pointer opacity-100"
+									: "w-40 bg-gray-400 shadow-xl flex-col absolute top-12 right-0 cursor-pointer opacity-0 hidden"
+							}`}
+							onClick={() => {
+								dispatch(logout());
+								setShowLogout(false);
+							}}
+						>
+							<p className="p-3">logout</p>
+						</div>
 					</div>
 					<div className="cursor-pointer">
 						<BsFillCartPlusFill className="text-[30px]" />
