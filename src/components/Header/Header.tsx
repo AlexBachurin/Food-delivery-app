@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import { BsFillCartPlusFill } from "react-icons/bs";
 import { AiOutlineMenu } from "react-icons/ai";
 import HeaderNav from "./HeaderNav";
@@ -11,13 +11,37 @@ import { motion } from "framer-motion";
 const Header: FC = () => {
 	const dispatch = useAppDispatch();
 
-	const { user, isAuthenticated } = useAppSelector((state) => state.auth);
+	const { user } = useAppSelector((state) => state.auth);
 
 	const [showLogout, setShowLogout] = useState(false);
 
 	const displayLogout = () => {
 		setShowLogout(!showLogout);
 	};
+
+	//close dropdown on outside click
+	const dropdownRef = useRef<HTMLDivElement>(null);
+	useEffect(() => {
+		const checkIfClickedOutside = (e: MouseEvent) => {
+			// If the menu is open and the clicked target is not within the menu,
+			// then close the menu
+			if (
+				showLogout &&
+				dropdownRef.current &&
+				!dropdownRef?.current?.contains(e.target as Node)
+			) {
+				setShowLogout(false);
+			}
+		};
+
+		//event to check for mouse outside of menu
+		document.addEventListener("mousedown", checkIfClickedOutside);
+
+		return () => {
+			// Cleanup the event listener
+			document.removeEventListener("mousedown", checkIfClickedOutside);
+		};
+	}, [showLogout]);
 	return (
 		<header className="fixed  z-40 w-screen p-6 lg:px-16 md:px-8 bg-primary-bg text-header-text">
 			{/* desktop and tablet */}
@@ -50,6 +74,7 @@ const Header: FC = () => {
 							/>
 							{showLogout && (
 								<motion.div
+									ref={dropdownRef}
 									initial={{ opacity: 0, scale: 0.6 }}
 									animate={{ opacity: 1, scale: 1 }}
 									exit={{ opacity: 0, scale: 0.6 }}
@@ -97,6 +122,7 @@ const Header: FC = () => {
 						/>
 						{showLogout && (
 							<motion.div
+								ref={dropdownRef}
 								initial={{ opacity: 0, scale: 0.6 }}
 								animate={{ opacity: 1, scale: 1 }}
 								exit={{ opacity: 0, scale: 0.6 }}
