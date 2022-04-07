@@ -49,8 +49,8 @@ const Header: FC = () => {
 							<div
 								className={`${
 									showLogout
-										? "w-40 bg-gray-400 shadow-xl flex flex-col absolute top-12 right-0 cursor-pointer opacity-100"
-										: "w-40 bg-gray-400 shadow-xl flex-col absolute top-12 right-0 cursor-pointer opacity-0 hidden"
+										? "w-40 bg-gray-400 shadow-xl flex flex-col absolute top-12 right-0 cursor-pointer opacity-100 before:block before:absolute before:w-0 before:h-0 before:right-2 before:top-[-8px] before:border-l-[5px] before:border-r-[5px] before:border-b-[5px] before:border-l-transparent before:border-r-transparent before:border-b-black"
+										: "w-40 bg-gray-400 shadow-xl hidden flex-col absolute top-12 right-0 cursor-pointer opacity-0 "
 								}`}
 								onClick={() => {
 									dispatch(logout());
@@ -87,7 +87,7 @@ const Header: FC = () => {
 						<div
 							className={`${
 								showLogout
-									? "w-40 bg-gray-400 shadow-xl flex flex-col absolute top-12 right-0 cursor-pointer opacity-100"
+									? "w-40 bg-gray-400 shadow-xl flex flex-col absolute top-12 right-0 cursor-pointer opacity-100 before:block before:absolute before:w-0 before:h-0 before:right-2 before:top-[-8px] before:border-l-[5px] before:border-r-[5px] before:border-b-[5px] before:border-l-transparent before:border-r-transparent before:border-b-black"
 									: "w-40 bg-gray-400 shadow-xl flex-col absolute top-12 right-0 cursor-pointer opacity-0 hidden"
 							}`}
 							onClick={() => {
